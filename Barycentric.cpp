@@ -1,4 +1,4 @@
-#include </home/helton/SPH/LearnOpenGL/includes/glad/glad.h>
+#include "glad/glad.h"
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include "Shader.h"

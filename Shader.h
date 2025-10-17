@@ -1,7 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include </home/helton/SPH/LearnOpenGL/includes/glad/glad.h>
+#include "glad/glad.h"
 #include <glm/glm.hpp>
 #include <string>
 #include <fstream>
