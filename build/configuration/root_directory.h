@@ -1,1 +1,1 @@
-const char * logl_root = "/home/helton/disciplinas/mvga2013/barycentric";
+const char * logl_root = "/mnt/c/Users/moliv/Downloads/barycentric";

@@ -1,3 +1,3 @@
-/home/helton/disciplinas/mvga2013/barycentric/build/CMakeFiles/Barycentric.dir
-/home/helton/disciplinas/mvga2013/barycentric/build/CMakeFiles/edit_cache.dir
-/home/helton/disciplinas/mvga2013/barycentric/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/moliv/Downloads/barycentric/build/CMakeFiles/Barycentric.dir
+/mnt/c/Users/moliv/Downloads/barycentric/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/moliv/Downloads/barycentric/build/CMakeFiles/rebuild_cache.dir

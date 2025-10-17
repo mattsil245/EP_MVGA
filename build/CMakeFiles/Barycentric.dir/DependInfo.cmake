@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/helton/disciplinas/mvga2013/barycentric/glad.c" "CMakeFiles/Barycentric.dir/glad.c.o" "gcc" "CMakeFiles/Barycentric.dir/glad.c.o.d"
-  "/home/helton/disciplinas/mvga2013/barycentric/Barycentric.cpp" "CMakeFiles/Barycentric.dir/Barycentric.cpp.o" "gcc" "CMakeFiles/Barycentric.dir/Barycentric.cpp.o.d"
-  "/home/helton/disciplinas/mvga2013/barycentric/stb_image/stb_image.cpp" "CMakeFiles/Barycentric.dir/stb_image/stb_image.cpp.o" "gcc" "CMakeFiles/Barycentric.dir/stb_image/stb_image.cpp.o.d"
+  "/mnt/c/Users/moliv/Downloads/barycentric/glad.c" "CMakeFiles/Barycentric.dir/glad.c.o" "gcc" "CMakeFiles/Barycentric.dir/glad.c.o.d"
+  "/mnt/c/Users/moliv/Downloads/barycentric/Barycentric.cpp" "CMakeFiles/Barycentric.dir/Barycentric.cpp.o" "gcc" "CMakeFiles/Barycentric.dir/Barycentric.cpp.o.d"
+  "/mnt/c/Users/moliv/Downloads/barycentric/stb_image/stb_image.cpp" "CMakeFiles/Barycentric.dir/stb_image/stb_image.cpp.o" "gcc" "CMakeFiles/Barycentric.dir/stb_image/stb_image.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
