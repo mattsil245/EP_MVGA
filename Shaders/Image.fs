@@ -5,7 +5,6 @@ uniform float iTime;
 uniform vec2 iResolution;
 uniform vec4 iMouse;
 #define EPS  .01
-#define PI 3.14159265359
 #define COL0 vec3(.2, .35, .55)
 #define COL1 vec3(.9, .43, .34)
 #define COL2 vec3(.96, .66, .13)
@@ -74,7 +73,11 @@ float sharpen(in float d, in float w)
 
 vec3 bary(in vec3 a, in vec3 b, in vec3 c, in vec3 p)
 {
-    return vec3(0.333);
+    float den = ((b.y - c.y)*(a.x - c.x)+(c.x - b.x)*(a.y - c.y));
+    float x = ((b.y - c.y)*(p.x - c.x)+(c.x - b.x)*(p.y - c.y))/den;
+    float y = ((c.y - a.y)*(p.x - c.x)+(a.x - c.x)*(p.y - c.y))/den;
+    float z = 1 - x - y;
+    return vec3(x, y, z);
 }
 
 bool test(in vec2 a, in vec2 b, in vec2 c, in vec2 p, inout vec3 barycoords)
@@ -93,14 +96,17 @@ float df_bounds(in vec2 uv, in vec2 p, in vec2 a, in vec2 b, in vec2 c, in vec3 
     float cp = 0.;
 
 
-float c0 = sharpen(df_circ(uv, p,
-                   (.03 + cos(15.*iTime) *.01))
-                   , EPS * 1.);
+
 
 
     return cp;
 }
 
+/*vec3 scene(in vec2 uv, in vec2 a, in vec2 b, in vec2 c, in vec2 p)
+{
+    float d = df_bounds(uv, p, a, b, c);
+    return d > 0. ? COL3 : COL1;
+}*/
 
 vec3 globalColor (in vec2 uv, in vec2 a, in vec2 b, in vec2 c)
 {
@@ -109,22 +115,13 @@ vec3 globalColor (in vec2 uv, in vec2 a, in vec2 b, in vec2 c)
     return r;
 }
 
-float dist_01(vec2 p,float r)
-{
-    float d = length(p);
-    return smoothstep(r,r+0.01,d);
-}
-
-
-
 void main()
 {
-    /*float ar = iResolution.x / iResolution.y;
-        vec2 mc=vec2(0.0);
-        vec2 uv = (gl_FragCoord.xy / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
-            if(iMouse.z==1.0)
-             mc = (iMouse.xy    / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
-
+    float ar = iResolution.x / iResolution.y;
+    vec2 mc=vec2(0.0);
+    vec2 uv = (gl_FragCoord.xy / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
+    if(iMouse.z==1.0)
+        mc = (iMouse.xy    / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
 
     vec2 a = vec2( .73,  .75);
     vec2 b = vec2(-.85,  .15);
@@ -132,11 +129,11 @@ void main()
     vec3 barycoords;
 
     bool t0 = test(a, b, c, mc,barycoords);
-     float l = 0.1;//df_bounds(uv, mc, a, b, c,barycoords);
+    float l = 0.1;//df_bounds(uv, mc, a, b, c,barycoords);
 
     bool t1 = test(a, b, c, uv,barycoords);
     vec3 r = globalColor(uv,a,b,c);
-    bool testcc = false;//t1;
+    bool testcc = t1;
     vec3 color=vec3(0.0);
     // Visual debug lines and points.
        if (line(uv, a, b))
@@ -152,31 +149,8 @@ void main()
       if (df_circ(uv, c,EPS)<0.5*EPS)
           color = vec3(0.0, 0.0, 1.0);
 
-    vec3 col = l > 0. ? ( vec3(1)-color) : (t1 ? r : (t0 ? COL3+color : COL2-color));
-*/
-       vec2 p = gl_FragCoord.xy/iResolution.xy;
-        vec3 col=mix(COL1,COL2,p.y);
-        p.x*=iResolution.x/iResolution.y;
-        float r =0.12;
+    vec3 col = l > 0. ? (testcc ? color : vec3(1)-color) : (t1 ? r : (t0 ? COL3+color : COL2-color));
 
-        vec2 q = p-vec2(0.5,0.7);
-         r+=0.055*cos(atan(q.x,q.y)*13.0 - 40.0*q.x + 0.3*sin(iTime*3.1459));
-         r+= 0.02*sin(atan(q.x,q.y)*200.0);
-        col*=dist_01(q,r);
-
-vec2 t = p-vec2(1,0.2);
-r =0.2;
-r+= 0.06*cos(atan(t.x,t.y)*100.0);
-col+=(1-dist_01(t,r))*0.5;
-
-
-        r=0.02;
-        r+= 0.005*cos(q.y*100.0);
-        r+=exp(-40.0*p.y);
-        col *= (1.0-(1.0-smoothstep(r,r+0.01,abs(q.x -0.075*sin(q.y*4.5))))*smoothstep(0.1,0.0,q.y));
-
-
-        col *= (1.0-(1.0-smoothstep(r,r+0.01,abs(q.x -0.075*sin(q.y*4.5))))*smoothstep(0.1,0.0,q.y));
-
-        gl_FragColor = vec4(col, 1);
+    gl_FragColor = vec4(1.0-col, 1);
+    
 }
