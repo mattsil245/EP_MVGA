@@ -82,23 +82,17 @@ vec3 bary(in vec3 a, in vec3 b, in vec3 c, in vec3 p)
 
 bool test(in vec2 a, in vec2 b, in vec2 c, in vec2 p, inout vec3 barycoords)
 {
-    barycoords = bary(vec3(a.x, 0., a.y),
-                  vec3(b.x, 0., b.y),
-                  vec3(c.x, 0., c.y),
-                  vec3(p.x, 0., p.y));
+    barycoords = bary(vec3(a.x, a.y, 0.),
+                      vec3(b.x, b.y, 0.),
+                      vec3(c.x, c.y, 0.),
+                      vec3(p.x, p.y, 0.));
 
     return barycoords.x > 0. && barycoords.y > 0. && barycoords.z > 0.;
 }
 
-
 float df_bounds(in vec2 uv, in vec2 p, in vec2 a, in vec2 b, in vec2 c, in vec3 barycoords)
 {
     float cp = 0.;
-
-
-
-
-
     return cp;
 }
 
@@ -132,7 +126,7 @@ void main()
     float l = df_bounds(uv, mc, a, b, c,barycoords);
 
     bool t1 = test(a, b, c, uv,barycoords);
-    vec3 r = globalColor(uv,a,b,c);
+    vec3 r = 1.0 - barycoords; //globalColor(uv,a,b,c);
     bool testcc = t1;
     vec3 color=vec3(0.0);
     // Visual debug lines and points.
