@@ -129,7 +129,7 @@ void main()
     vec3 barycoords;
 
     bool t0 = test(a, b, c, mc,barycoords);
-    float l = 0.1;//df_bounds(uv, mc, a, b, c,barycoords);
+    float l = df_bounds(uv, mc, a, b, c,barycoords);
 
     bool t1 = test(a, b, c, uv,barycoords);
     vec3 r = globalColor(uv,a,b,c);

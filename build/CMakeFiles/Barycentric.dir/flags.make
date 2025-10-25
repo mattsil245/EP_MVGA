@@ -5,13 +5,13 @@
 # compile CXX with /usr/bin/c++
 C_DEFINES = 
 
-C_INCLUDES = -I/mnt/c/Users/moliv/Downloads/barycentric/build/configuration -I/mnt/c/Users/moliv/Downloads/barycentric/includes
+C_INCLUDES = -I/mnt/c/Users/moliv/Documents/EP-MVGA/EP_MVGA/build/configuration -I/mnt/c/Users/moliv/Documents/EP-MVGA/EP_MVGA/includes
 
 C_FLAGS = 
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/c/Users/moliv/Downloads/barycentric/build/configuration -I/mnt/c/Users/moliv/Downloads/barycentric/includes
+CXX_INCLUDES = -I/mnt/c/Users/moliv/Documents/EP-MVGA/EP_MVGA/build/configuration -I/mnt/c/Users/moliv/Documents/EP-MVGA/EP_MVGA/includes
 
 CXX_FLAGS = -std=gnu++17
 
