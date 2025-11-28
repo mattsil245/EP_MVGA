@@ -4,7 +4,8 @@ uniform sampler2D iChannel2;
 uniform float iTime;
 uniform vec2 iResolution;
 uniform vec4 iMouse;
-#define EPS  .01
+#define EPS  .01 //epsilum
+//cores
 #define COL0 vec3(.2, .35, .55)
 #define COL1 vec3(.9, .43, .34)
 #define COL2 vec3(.96, .66, .13)
@@ -24,6 +25,7 @@ git clone https://github.com/JoeyDeVries/LearnOpenGL.git*/
 
 float df_circ(in vec2 p, in vec2 c, in float r)
 {
+    //d(r,v) onde v = d(p,c), na teoria r = E, raio então
     return abs(r - length(p - c));
 }
 
@@ -71,6 +73,7 @@ float sharpen(in float d, in float w)
     return 1. - smoothstep(-e, e, d - w);
 }
 
+//calcula as coordenadas baricentricas de acordo com a formula
 vec3 bary(in vec3 a, in vec3 b, in vec3 c, in vec3 p)
 {
     float den = ((b.y - c.y)*(a.x - c.x)+(c.x - b.x)*(a.y - c.y));
@@ -87,6 +90,7 @@ bool test(in vec2 a, in vec2 b, in vec2 c, in vec2 p, inout vec3 barycoords)
                       vec3(c.x, c.y, 0.),
                       vec3(p.x, p.y, 0.));
 
+//retorna se todos os essclares forem maior que 0
     return barycoords.x > 0. && barycoords.y > 0. && barycoords.z > 0.;
 }
 
@@ -104,9 +108,10 @@ float df_bounds(in vec2 uv, in vec2 p, in vec2 a, in vec2 b, in vec2 c, in vec3 
 
 vec3 globalColor (in vec2 uv, in vec2 a, in vec2 b, in vec2 c)
 {
-    vec3 r=vec3(1.0);
-
-    return r;
+    vec3 r;
+    test(a,b,c,uv,r);
+    
+    return vec3(1.) - r;
 }
 
 void main()
@@ -114,9 +119,12 @@ void main()
     float ar = iResolution.x / iResolution.y;
     vec2 mc=vec2(0.0);
     vec2 uv = (gl_FragCoord.xy / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
+    //se o mouse estiver pressionado
     if(iMouse.z==1.0)
+        //normaliza as coordenadas recebidas
         mc = (iMouse.xy    / iResolution.xy * 2. - 1.) * vec2(ar, 1.);
 
+    //posicao do triangulo
     vec2 a = vec2( .73,  .75);
     vec2 b = vec2(-.85,  .15);
     vec2 c = vec2( .25, -.75);
@@ -126,7 +134,8 @@ void main()
     float l = df_bounds(uv, mc, a, b, c,barycoords);
 
     bool t1 = test(a, b, c, uv,barycoords);
-    vec3 r = 1.0 - barycoords; //globalColor(uv,a,b,c);
+    vec3 r = globalColor(uv,a,b,c);
+
     bool testcc = t1;
     vec3 color=vec3(0.0);
     // Visual debug lines and points.
@@ -136,14 +145,14 @@ void main()
            color = vec3(1.0, 0.0, 1.0);
        if (line(uv, c, a))
            color = vec3(0.0, 1.0, 1.0);
-       if (df_circ(uv, a,EPS)<0.5*EPS)
+       if (df_circ(uv, a,EPS)<0.5*EPS) 
           color = vec3(0.0, 1.0, 0.0);
       if (df_circ(uv, b,EPS)<0.5*EPS)
           color = vec3(1.0, 0.0, 0.0);
       if (df_circ(uv, c,EPS)<0.5*EPS)
           color = vec3(0.0, 0.0, 1.0);
 
-    vec3 col = l > 0. ? (testcc ? color : vec3(1)-color) : (t1 ? r : (t0 ? COL3+color : COL2-color));
+    vec3 col =  (t1 ? r : (t0 ? COL3+color : COL2-color));
 
     gl_FragColor = vec4(1.0-col, 1);
     
